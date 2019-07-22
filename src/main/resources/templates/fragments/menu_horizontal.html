@@ -1,0 +1,67 @@
+<!DOCTYPE html>
+<html lang="pt-BR" xmlns:th="http://www.thymeleaf.org">
+<head>
+<meta charset="utf-8">
+</head>
+<body>
+
+<div class="horizontal-menu container" th:fragment="menu_horizontal">
+<nav class="navbar top-navbar col-lg-12 col-12 p-0">
+	<div class="container">
+		<div
+			class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
+
+			<div class="text-center">
+				<nav class="bottom-navbar">
+					<ul class="nav page-navigation">
+						<li class="nav-item"><a class="nav-link" > 
+							<i class="mdi mdi-currency-usd"></i>
+							<span class="menu-title">Variação Cambial</span> </a>
+						</li>
+					</ul>
+				</nav>				
+			</div>
+
+			<ul class="navbar-nav navbar-nav-right">
+				<li class="nav-item dropdown  d-lg-flex d-none">
+					<button type="button" class="btn btn-inverse-primary btn-sm">Product
+					</button>
+				</li>
+				<li class="nav-item dropdown d-lg-flex d-none"><a
+					class="dropdown-toggle show-dropdown-arrow btn btn-inverse-primary btn-sm"
+					id="nreportDropdown" href="#" data-toggle="dropdown">
+						Reports </a>
+					<div
+						class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list"
+						aria-labelledby="nreportDropdown">
+						<p class="mb-0 font-weight-medium float-left dropdown-header">Reports</p>
+						<a class="dropdown-item"> <i
+							class="mdi mdi-file-pdf text-primary"></i> Pdf
+						</a> <a class="dropdown-item"> <i
+							class="mdi mdi-file-excel text-primary"></i> Exel
+						</a>
+					</div>
+					</li>
+				<li class="nav-item dropdown d-lg-flex d-none">
+					<button type="button" class="btn btn-inverse-primary btn-sm">Settings</button>
+				</li>
+			</ul>
+		</div>
+	</div>
+</nav>
+
+	<nav class="bottom-navbar">
+		<div class="container-fluid ">
+			<ul class="nav page-navigation justify-content-end">
+				<li class="nav-item"><a class="nav-link" th:href="@{/empresas/novo}" > 
+					<i class="mdi mdi-plus-circle menu-icon"></i>
+					<span class="menu-title">Empresa</span> </a>
+				</li>
+			</ul>
+		</div>
+	</nav>
+</div>
+
+
+</body>
+</html>

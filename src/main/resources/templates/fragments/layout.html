@@ -1,0 +1,45 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+<title layout:title-pattern="$LAYOUT_TITLE - $CONTENT_TITLE">Smart Tax Solutions</title>
+<link rel="stylesheet" th:href="@{/vendors/base/vendor.bundle.base.css}">
+<link rel="stylesheet" th:href="@{/css/style.css}">
+<link rel="shortcut icon" th:href="@{/images/favicon.png}"/>
+<link rel="stylesheet" th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
+<!-- Latest compiled and minified CSS -->
+<link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+</head>
+<body>
+	<div class="container-fluid">
+			
+	<div th:replace="fragments/menu_horizontal :: menu_horizontal"></div>
+
+		<div class="container">
+			<div>
+				<div class="container">
+
+					<div layout:fragment="content">
+						<!-- CONTENT HERE -->
+					</div>
+				
+				</div>				
+				
+				
+				<footer th:replace="/fragments/footer :: footer"></footer>
+			</div>
+
+		</div>
+	</div>
+
+<script src="vendors/base/vendor.bundle.base.js"></script>	
+<!--  
+<script src="js/template.js"></script>
+ -->
+ <th:block layout:fragment="js-extra"></th:block>
+ 
+</body>
+</html>

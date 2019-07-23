@@ -13,6 +13,7 @@ import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cf.exceptions.EmpresaExisteException;
 import cf.model.Empresa;
+import cf.repositories.Empresas;
 import cf.services.EmpresaService;
 
 @Controller
@@ -21,6 +22,9 @@ public class EmpresaController {
 	
 	@Autowired
 	private EmpresaService empresaService;
+	
+	@Autowired
+	private Empresas empresas;
 	
 	@GetMapping("/novo")
 	public ModelAndView form(Empresa empresa) {
@@ -47,6 +51,7 @@ public class EmpresaController {
 	@GetMapping()
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("empresa/listadoEmpresas");
+		mv.addObject("empresas", empresas.findAll());
 		return mv;
 	}
 	

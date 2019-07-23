@@ -24,19 +24,17 @@
 						<tr>
 							<th>CNPJ</th>
 							<th>Nome</th>
-							<th></th>
+							<th width="8%"></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr>
-							<td>02.256.263/152-45</td>
-							<td>Aernnova do Brasil</td>
-							<td><a><i class="mdi mdi-border-color"></i></a></td>
-						</tr>
-						<tr>
-							<td>02.256.263/152-00</td>
-							<td>Rege Lub</td>
-							<td><a><i class="mdi mdi-border-color"></i></a></td>
+						<tr th:each="empresa : ${empresas}">
+							<td>[[${empresa.cnpj}]]</td>
+							<td>[[${empresa.nome}]]</td>
+							<td>
+								<a><i class="mdi mdi-pencil-box" style="color: gray;"></i></a>
+								<a><i class="mdi mdi-delete" style="color: red;"></i></a>
+							</td>							
 						</tr>
 					</tbody>				
 				</table>

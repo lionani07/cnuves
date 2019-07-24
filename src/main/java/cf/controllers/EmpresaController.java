@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -43,7 +44,7 @@ public class EmpresaController {
 			result.rejectValue("cnpj", e.getMessage(), e.getMessage());			
 			return form(empresa);
 		}	
-		flash.addFlashAttribute("msgSucesso", "Empresa " + empresa.getNome() + " cadastrada com sucesso");
+		flash.addFlashAttribute("msgSuccess", "Empresa " + empresa.getNome() + " cadastrada com sucesso");
 		ModelAndView mv = new ModelAndView("redirect:/empresas/novo");
 		return mv;
 	}
@@ -52,6 +53,18 @@ public class EmpresaController {
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("empresa/listadoEmpresas");
 		mv.addObject("empresas", empresas.findAll());
+		return mv;
+	}
+	
+	@GetMapping("/delete/{cnpj}")
+	public ModelAndView delete(@PathVariable String cnpj, RedirectAttributes flash) {
+		ModelAndView mv = new ModelAndView("redirect:/empresas");
+		try {
+			empresaService.delete(cnpj);
+			flash.addFlashAttribute("msgSuccess", "Empresa deletada com successo");
+		} catch (Exception e) {
+			flash.addFlashAttribute("msgError", e.getMessage());
+		}		
 		return mv;
 	}
 	

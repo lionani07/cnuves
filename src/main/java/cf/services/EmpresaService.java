@@ -16,10 +16,19 @@ public class EmpresaService {
 	private Empresas empresas;
 	
 	public Empresa save(Empresa empresa) {
-		Optional<Empresa> optionalEmpresa = empresas.findByCnpj(empresa.getCnpj());
+		Optional<Empresa> optionalEmpresa = empresas.findById(empresa.getCnpj());
 		if(optionalEmpresa.isPresent()) {
-			throw new EmpresaExisteException("Empresa já cadastrada");
+			throw new EmpresaExisteException("Empresa já cadastrada!");
 		}
 		return empresas.save(empresa);
+	}
+
+	public void delete(String cnpj) {
+		Optional<Empresa> optionalEmpresa = empresas.findById(cnpj);
+		if(!optionalEmpresa.isPresent()) {
+			throw new RuntimeException("Empresa não existe!");
+		}
+		empresas.delete(optionalEmpresa.get());
+		
 	}
 }

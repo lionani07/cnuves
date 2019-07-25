@@ -1,5 +1,6 @@
 package cf.model;
 
+import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
@@ -7,6 +8,7 @@ import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
 
+@Entity
 public class Moeda {
 	
 	@Id
@@ -16,13 +18,13 @@ public class Moeda {
 	@NotBlank(message = "Nome é obrigatório")
 	private String nome;
 	
-	@NotBlank(message = "Tipo de moeda é obrigatório")
-	private String tipoMoeda;
+	@NotBlank(message = "Sigla é obrigatório")
+	private String sigla;
 	
 	@PrePersist @PreUpdate
 	private void prepare() {
 		this.nome = this.nome.substring(0, 1).toUpperCase() + this.nome.substring(1).toLowerCase();
-		this.tipoMoeda = this.tipoMoeda.toUpperCase();
+		this.sigla = this.sigla.toUpperCase();
 	}
 
 	public Long getId() {
@@ -41,12 +43,11 @@ public class Moeda {
 		this.nome = nome;
 	}
 
-	public String getTipoMoeda() {
-		return tipoMoeda;
+	public String getSigla() {
+		return sigla;
 	}
-
-	public void setTipoMoeda(String tipoMoeda) {
-		this.tipoMoeda = tipoMoeda;
+	public void setSigla(String sigla) {
+		this.sigla = sigla;
 	}
 
 	@Override

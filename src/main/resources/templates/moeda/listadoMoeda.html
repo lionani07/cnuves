@@ -18,6 +18,16 @@
 				</div>
 			</div>
 			<div class="card-body">
+			
+			<div class="alert alert-info alert-dismissible" th:if="${msgInfo}">
+				<button class="close" data-dismiss="alert">&times</button>
+				<div><i class="mdi mdi-information"></i> [[${msgInfo}]]</div>
+			</div>	
+			<div class="alert alert-danger alert-dismissible" th:if="${msgError}">
+				<button class="close" data-dismiss="alert">&times</button>
+				<div><i class="mdi mdi-information"></i> [[${msgError}]]</div>
+			</div>
+			
 				<div class="table-responsive">
 					<table class="table table-sm table-hover table-bordered">
 						<thead class="thead-light">
@@ -32,8 +42,8 @@
 								<td>[[${moeda.sigla}]]</td>
 								<td>[[${moeda.Nome}]]</td>
 								<td>
-									<a><i class="mdi mdi-pencil-box text-primary"></i></a>
-									<a><i class="mdi mdi-delete text-danger"></i></a>
+									<a th:href="@{/moedas/edit/{id}(id=${moeda.id})}"><i class="mdi mdi-pencil-box text-primary"></i></a>
+									<a th:href="@{/moedas/delete/{id}(id=${moeda.id})}"><i class="mdi mdi-delete text-danger"></i></a>
 								</td>
 							</tr>
 						</tbody>

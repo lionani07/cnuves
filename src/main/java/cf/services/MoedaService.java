@@ -1,6 +1,7 @@
 package cf.services;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -33,6 +34,17 @@ public class MoedaService {
 			}
 		}
 		return false;
+	}
+
+	public void delete(Long id) {
+		Optional<Moeda> optionalMoeda = moedas.findById(id);
+		try {
+			if(optionalMoeda.isPresent()) {
+				moedas.delete(optionalMoeda.get());
+			}
+		} catch (Exception e) {
+			throw new RuntimeException("Error ao deletar moeda com id: " + id);
+		}
 	}
 	
 }

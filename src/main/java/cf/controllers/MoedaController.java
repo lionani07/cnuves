@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.servlet.ModelAndView;
@@ -51,6 +52,24 @@ public class MoedaController {
 		}
 		flash.addFlashAttribute("msgSuccess", "Moeda cadastrada com successo");
 		return new ModelAndView("redirect:/moedas/novo");
+	}
+	
+	@GetMapping("/delete/{id}")
+	public ModelAndView delete(@PathVariable Long id, RedirectAttributes flash) {
+		ModelAndView mv = new ModelAndView("redirect:/moedas");
+		try {
+			moedaService.delete(id);
+			flash.addFlashAttribute("msgInfo", "Moeda deletada com successo");
+		} catch (Exception e) {
+			flash.addFlashAttribute("msgError", e.getMessage());
+		}
+		return mv;		
+	}
+	
+	@GetMapping("/edit/{id}")
+	public ModelAndView showEditPage(@PathVariable long id) {
+		//Terminar de fazer amanha...
+		return new ModelAndView();
 	}
 	
 }

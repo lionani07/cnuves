@@ -1,5 +1,7 @@
 package cf.controllers;
 
+import java.util.Optional;
+
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
@@ -39,7 +41,7 @@ public class EmpresaController {
 			return form(empresa);
 		}
 		try {
-			empresaService.save(empresa);
+			empresaService.save(empresa);			
 		} catch (EmpresaExisteException e) {			
 			result.rejectValue("cnpj", e.getMessage(), e.getMessage());			
 			return form(empresa);
@@ -61,11 +63,37 @@ public class EmpresaController {
 		ModelAndView mv = new ModelAndView("redirect:/empresas");
 		try {
 			empresaService.delete(cnpj);
-			flash.addFlashAttribute("msgSuccess", "Empresa deletada com successo");
+			flash.addFlashAttribute("msgInfo", "Empresa deletada com successo");
 		} catch (Exception e) {
 			flash.addFlashAttribute("msgError", e.getMessage());
 		}		
 		return mv;
+	}
+	
+	@GetMapping("/edit/{cnpj}")
+	public ModelAndView edit(@PathVariable String cnpj) {
+		ModelAndView mv = new ModelAndView("redirect:/empresas");
+		Optional<Empresa> optionalEmpresa = empresas.findById(cnpj);
+		if(optionalEmpresa.isPresent()) {
+			mv.addObject("empresa", optionalEmpresa.get());
+			mv.setViewName("/empresa/editEmpresa");			
+		}
+		return mv;
+	}
+	
+	@PostMapping("/update")
+	public ModelAndView update(@Valid Empresa empresa, BindingResult result, RedirectAttributes flash) {
+		if(result.hasErrors()) {
+			return new ModelAndView("/empresa/editEmpresa");
+		}
+		try {
+			empresaService.update(empresa);
+		} catch (EmpresaExisteException e) {
+			result.rejectValue("cnpj", e.getMessage(), e.getMessage());
+			return new ModelAndView("/empresa/editEmpresa");
+		}
+		flash.addFlashAttribute("msgInfo", "Empresa editada com succeso");
+		return new ModelAndView("redirect:/empresas");
 	}
 	
 	

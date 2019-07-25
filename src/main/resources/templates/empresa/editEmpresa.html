@@ -3,7 +3,7 @@
 	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
 	layout:decorate="~{fragments/layout}">
 <head>
-<title>Cadastro Empresa</title>
+<title>Editar Empresa</title>
 <meta charset="utf-8">
 </head>
 
@@ -11,15 +11,15 @@
 	<div layout:fragment="content">
 		<div class="card">
 			<div class="card-header">
-				<h6><i class="mdi mdi-plus-circle text-success"></i> Cadastro de empresa</h6>
+				<h6><i class="mdi mdi-plus-circle text-success"></i> Editar de empresa</h6>
 			</div>
 			<div class="card-body">	
 					
-				<form th:object="${empresa}"method="post">	
+				<form th:object="${empresa}"method="post" th:action="@{/empresas/update}">	
 				<div class="alert alert-danger alert-dismissible" th:if="${#fields.hasAnyErrors()}">
 					<button class="close" data-dismiss="alert">&times;</button>					
 					<th:block th:each="error : ${#fields.detailedErrors()}">
-						<div class="text-sm"><i class="mdi mdi-information"></i> [[${error.message}]]</div>
+						<div class="text-sm"><i class="mdi mdi-exclamation"></i> [[${error.message}]]</div>
 					</th:block>				
 				</div>
 				
@@ -38,7 +38,7 @@
 						<input type="text" class="form-control form-control-sm" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? is-invalid">
 					</div>
 				</div>
-				<button type="submit" class="btn btn-success btn-sm"><i class="mdi mdi-check"></i> Guardar</button>
+				<button type="submit" class="btn btn-success btn-sm"><i class="mdi mdi-check"></i> Editar</button>
 				</form>
 			</div>
 		</div>

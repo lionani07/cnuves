@@ -1,0 +1,40 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+<head>
+<title>Editar cliente</title>
+<meta charset="utf-8">
+</head>
+
+<body>
+	<div layout:fragment="content">
+		
+		<div class="card">
+			<div class="card-header">
+				<div><i class="mdi mdi-account-multiple"></i> Editar cliente</div>
+			</div>
+			<form th:object="${cliente}" th:action="@{/clientes/update/{id}(id=${cliente.id})}" method="post">						
+			<div class="card-body">
+			
+			<div class="alert alert-danger alert-dismissible" th:if="${#fields.hasAnyErrors()}">
+				<button class="close" data-dismiss="alert">&times;</button>
+				<th:block th:each="error : ${#fields.detailedErrors()}">
+					<div class="text-sm"><i class="mdi mdi-information"></i> [[${error.message}]]</div>
+				</th:block>			
+			</div>
+			
+				<div class="row">
+					<div class="form-group col-sm-6">
+						<label class="form-control-label">Nome</label>
+						<input type="text" class="form-control form-control-sm" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? is-invalid">
+					</div>
+				</div>
+				<button type="submit" class="btn btn-success btn-sm"><i class="mdi mdi-check"></i> Guardar</button>
+			</div>			
+			</form>
+		</div>
+		
+	</div>	
+</body>
+</html>

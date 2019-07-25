@@ -12,8 +12,8 @@ public class Empresa {
 	private String cnpj;
 	
 	@NotBlank(message = "Nome é obrigatório")
-	private String nome;
-
+	private String nome;	
+	
 	public String getCnpj() {
 		return cnpj;
 	}

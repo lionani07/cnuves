@@ -42,8 +42,8 @@
 								<td>[[${moeda.sigla}]]</td>
 								<td>[[${moeda.Nome}]]</td>
 								<td>
-									<a th:href="@{/moedas/edit/{id}(id=${moeda.id})}"><i class="mdi mdi-pencil-box text-primary"></i></a>
-									<a th:href="@{/moedas/delete/{id}(id=${moeda.id})}"><i class="mdi mdi-delete text-danger"></i></a>
+									<a th:href="@{/moedas/edit/{id}(id=${moeda.id})}" data-toggle="tooltip" title="Edit" data-placement="right"><i class="mdi mdi-pencil-box text-primary"></i></a>
+									<a th:href="@{/moedas/delete/{id}(id=${moeda.id})}" data-toggle="tooltip" title="Delete" data-placement="right"><i class="mdi mdi-delete text-danger"></i></a>
 								</td>
 							</tr>
 						</tbody>

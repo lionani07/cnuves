@@ -29,7 +29,7 @@ public class MoedaController {
 	
 	@GetMapping
 	public ModelAndView listar() {
-		ModelAndView mv = new ModelAndView("moeda/listadoMoeda");
+		ModelAndView mv = new ModelAndView("moeda/listadoMoedas");
 		mv.addObject("moedas", moedas.findAll());
 		return mv;
 	}

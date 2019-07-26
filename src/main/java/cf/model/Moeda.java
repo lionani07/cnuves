@@ -1,9 +1,14 @@
 package cf.model;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.GenerationType;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import javax.persistence.PrePersist;
 import javax.persistence.PreUpdate;
 import javax.validation.constraints.NotBlank;
@@ -12,7 +17,7 @@ import javax.validation.constraints.NotBlank;
 public class Moeda {
 	
 	@Id
-	@GeneratedValue(strategy = GenerationType.IDENTITY)
+	@GeneratedValue(strategy = GenerationType.AUTO)
 	private Long id;
 	
 	@NotBlank(message = "Nome é obrigatório")
@@ -20,6 +25,9 @@ public class Moeda {
 	
 	@NotBlank(message = "Sigla é obrigatório")
 	private String sigla;
+	
+	@OneToMany(mappedBy = "moeda", cascade = CascadeType.ALL, orphanRemoval = true)
+	private Set<TacaCambio> tacasCambios = new HashSet<TacaCambio>();
 	
 	@PrePersist @PreUpdate
 	private void prepare() {
@@ -49,6 +57,13 @@ public class Moeda {
 	public void setSigla(String sigla) {
 		this.sigla = sigla;
 	}
+	
+	public Set<TacaCambio> getTacasCambios() {
+		return tacasCambios;
+	}
+	public void setTacasCambios(Set<TacaCambio> tacasCambios) {
+		this.tacasCambios = tacasCambios;
+	}
 
 	@Override
 	public int hashCode() {
@@ -74,5 +89,12 @@ public class Moeda {
 			return false;
 		return true;
 	}
+
+	@Override
+	public String toString() {
+		return "Moeda [id=" + id + ", nome=" + nome + ", sigla=" + sigla + "]";
+	}
+	
+	
 	
 }

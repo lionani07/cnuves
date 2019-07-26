@@ -16,6 +16,7 @@ public class MoedaService {
 	@Autowired
 	private Moedas moedas;
 	
+	
 	public void save(Moeda moeda) {
 		if(!existe(moeda)) {
 			moedas.save(moeda);
@@ -46,5 +47,6 @@ public class MoedaService {
 			throw new RuntimeException("Error ao deletar moeda com id: " + id);
 		}
 	}
+	
 	
 }

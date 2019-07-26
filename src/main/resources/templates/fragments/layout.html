@@ -9,9 +9,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <link rel="stylesheet" th:href="@{/css/style.css}">
 <link rel="shortcut icon" th:href="@{/images/favicon.png}"/>
 <link rel="stylesheet" th:href="@{/vendors/mdi/css/materialdesignicons.min.css}">
-<!-- Latest compiled and minified CSS -->
+
 <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
-<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.7.0/css/all.css">
+ <link rel="stylesheet" th:href="@{/vendors/select2/select2.min.css}">
+<!-- Latest compiled and minified CSS -->
+
 </head>
 <body>
 	<div class="container-fluid">
@@ -35,10 +37,11 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 		</div>
 	</div>
 
-<script th:src="@{/vendors/base/vendor.bundle.base.js}"></script>	
+
+
 <!--  
-<script src="js/template.js"></script>
- -->
+<script th:src="@{/js/template.js}"></script>
+-->
  
  <!-- jQuery library -->
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.4.1/jquery.min.js"></script>
@@ -46,7 +49,18 @@ xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
 <!-- Latest compiled JavaScript -->
 <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+<script th:src="@{/vendors/select2/select2.min.js}"></script>
+<script th:src="@{/js/select2.js}"></script>
+
+
+
+		
+
 <script th:src="@{/js/cf.js}"></script>
+
+
+
+
  <th:block layout:fragment="js-extra"></th:block>
  
 </body>

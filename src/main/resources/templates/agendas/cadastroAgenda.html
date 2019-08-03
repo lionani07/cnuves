@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+<head>
+<title>Cadastro de Agenda</title>
+<meta charset="utf-8">
+<link rel="stylesheet" th:href="@{/vendors/gijgo-datepicker1.9.13/css/gijgo.min.css}">
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="card">
+			<div class="card-header">
+				<h6><i class="fas fa-user-md"></i> Cadastro de Agenda</h6>
+			</div>
+			<div class="card-body">	
+					
+				<form th:object="${agenda}"method="post">	
+				<div class="alert alert-danger alert-dismissible" th:if="${#fields.hasAnyErrors()}">
+					<button class="close" data-dismiss="alert">&times;</button>					
+					<th:block th:each="error : ${#fields.detailedErrors()}">
+						<div class="text-sm"><i class="mdi mdi-information"></i> [[${error.message}]]</div>
+					</th:block>				
+				</div>
+				
+				<div class="alert alert-success alert-dismissible" th:if="${msgSuccess}">
+					<button class="close" data-dismiss="alert"></button>
+					<div><i class="mdi mdi-check-circle"></i> [[${msgSuccess}]]</div>
+				</div>
+				
+				<div class="row">
+					
+					<div class="form-group col-sm-5">
+						<label class="form-control-label">Paciente</label>
+						<div th:classappend="${#fields.hasErrors('paciente')} ? bg-danger">
+						<select th:field="*{paciente}" class="js-example-basic-single w-100">
+							<option value="">Escolha paciente...</option>
+							<th:block th:each="paciente : ${pacientes}">
+								<option th:value="${paciente.id}">[[${paciente.nome}]]</option>
+							</th:block>
+						</select>						
+						</div>
+					</div>
+					
+					<div class="form-group col-sm-3">
+						<label class="form-control-label">Data</label>
+						<input type="text" class="form-control form-control-sm js-datepickerAgenda" th:field="*{data}" readonly th:classappend="${#fields.hasErrors('data')} ? is-invalid">
+					</div>
+					
+					<div class="form-group col-sm-2">
+						<label class="form-control-label">Hora inicio</label>
+						<input type="time" class="form-control form-control-sm" th:field="*{inicio}" th:classappend="${#fields.hasErrors('inicio')} ? is-invalid">
+					</div>
+					
+					<div class="form-group col-sm-2">
+						<label class="form-control-label">Hora Fim</label>
+						<input type="time" class="form-control form-control-sm" th:field="*{fim}" th:classappend="${#fields.hasErrors('fim')} ? is-invalid">
+					</div>					
+					
+					<div class="form-group col-sm-5">
+						<label class="form-control-label">Médico</label>
+						<div th:classappend="${#fields.hasErrors('medico')} ? bg-danger">
+						<select th:field="*{medico}" class="js-example-basic-single w-100">
+							<option value="">Escolha médico...</option>
+							<th:block th:each="medico : ${medicos}">
+								<option th:value="${medico.id}">[[${medico.nome}]]</option>
+							</th:block>
+						</select>
+						</div>
+					</div>					
+					
+					<div class="form-group col-sm-3">
+						<label class="form-control-label">Pagamento</label>
+						<select th:field="*{indicadorPagamento}" class="js-example-basic-single w-100">
+							<option value="">Escolha pagamento...</option>
+							<th:block th:each="pagamento : ${indicadoresPagamentos}">
+								<option th:value="${pagamento}">[[${pagamento}]]</option>
+							</th:block>
+						</select>
+					</div>
+					
+					<div class="form-group col-sm-2">
+						<label class="form-control-label">Valor</label>
+						<input type="text" th:field="*{valor}" class="form-control form-control-sm js-money">
+					</div>
+					
+				</div>
+				<button type="submit" class="btn btn-success btn-sm"><i class="mdi mdi-check"></i> Guardar</button>
+				</form>
+			</div>
+		</div>
+	</div>
+	<th:block layout:fragment="js-extra">
+		<script th:src="@{/vendors/gijgo-datepicker1.9.13/js/gijgo.min.js}"></script>
+		<script th:src="@{/vendors/gijgo-datepicker1.9.13/js/messages/messages.pt-br.min.js}"></script>
+		<script th:src="@{/js/datepickerAgenda.js}"></script>				
+	</th:block>	
+</body>
+</html>

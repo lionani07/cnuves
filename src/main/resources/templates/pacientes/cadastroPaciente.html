@@ -1,0 +1,82 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+<head>
+<title>Cadastro de Paciente</title>
+<meta charset="utf-8">
+<link rel="stylesheet" th:href="@{/vendors/gijgo-datepicker1.9.13/css/gijgo.min.css}">
+</head>
+
+<body>
+	<div layout:fragment="content">
+		<div class="card">
+			<div class="card-header">
+				<h6><i class="fas fa-user"></i> Cadastro de Paciente</h6>
+			</div>
+			<div class="card-body">	
+					
+				<form th:object="${paciente}"method="post">	
+				<div class="alert alert-danger alert-dismissible" th:if="${#fields.hasAnyErrors()}">
+					<button class="close" data-dismiss="alert">&times;</button>					
+					<th:block th:each="error : ${#fields.detailedErrors()}">
+						<div class="text-sm"><i class="mdi mdi-information"></i> [[${error.message}]]</div>
+					</th:block>				
+				</div>
+				
+				<div class="alert alert-success alert-dismissible" th:if="${msgSuccess}">
+					<button class="close" data-dismiss="alert"></button>
+					<div><i class="mdi mdi-check-circle"></i> [[${msgSuccess}]]</div>
+				</div>
+				
+				<div class="row">
+					
+					<div class="form-group col-sm-10">
+						<label class="form-control-label">Nome</label>
+						<input type="text" class="form-control form-control-sm" th:field="*{nome}" th:classappend="${#fields.hasErrors('nome')} ? is-invalid">
+					</div>
+					
+					<div class="form-group col-sm-2">
+						<label class="form-control-label">Data Nascimento</label>
+						<input type="text" class="js-datepicker form-control form-control-sm" th:field="*{dataNascimento}" readonly>
+					</div>	
+					
+					<div class="form-group col-sm-5">
+						<label class="form-control-label">CPF</label>
+						<input type="text" class="form-control form-control-sm js-cpf" th:field="*{cpf}" th:classappend="${#fields.hasErrors('cpf')} ? is-invalid">
+					</div>
+					
+					<div class="form-group col-sm-5">
+						<label class="form-control-label">Telefone</label>
+						<input type="text" class="form-control form-control-sm js-telefone" th:field="*{telefone}" th:classappend="${#fields.hasErrors('telefone')} ? is-invalid">
+					</div>					
+					
+					<div class="form-group col-sm-2">
+						<label class="form-control-label">Sexo</label>
+						<select th:field="*{sexo}" class="js-example-basic-single w-100">
+							<option value="">Escolha sexo...</option>
+							<th:block th:each="sexo : ${sexos}">
+								<option th:value="${sexo}">[[${sexo}]]</option>
+							</th:block>
+						</select>
+					</div>		
+					
+					
+					
+							
+					
+				</div>
+				<button type="submit" class="btn btn-success btn-sm"><i class="mdi mdi-check"></i> Guardar</button>
+				</form>
+			</div>
+		</div>
+	</div>	
+	
+	<th:block layout:fragment="js-extra">
+		<script th:src="@{/vendors/gijgo-datepicker1.9.13/js/gijgo.min.js}"></script>
+		<script th:src="@{/vendors/gijgo-datepicker1.9.13/js/messages/messages.pt-br.min.js}"></script>
+		<script th:src="@{/js/datepicker.js}"></script>
+	</th:block>
+	
+</body>
+</html>

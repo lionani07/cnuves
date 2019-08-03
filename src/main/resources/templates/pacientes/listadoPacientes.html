@@ -1,0 +1,66 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout"
+	layout:decorate="~{fragments/layout}">
+<head>
+<title>Listado de Pacientes</title>
+<meta charset="utf-8">
+</head>
+
+<body>
+	<div layout:fragment="content">	
+	
+		<div class="card">
+			<div class="card-header">
+				<div class="row">
+					<div class="col-sm-10"><i class="fas fa-user text-success"></i> Listado de Pacientes</div>				
+					<a th:href="@{/pacientes/novo}" class="col-sm-2 text-center btn btn-sm close"><i class="mdi mdi-plus-circle text-success"></i> Paciente</a>
+				</div>				
+			</div>
+			<div class="card-body">	
+			
+			<div class="alert alert-dismissible alert-info" th:if="${msgInfo}">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div><i class="mdi mdi-check-circle"></i> [[${msgInfo}]]</div>
+			</div>
+			<div class="alert alert-dismissible bg-danger" th:if="${msgError}">
+				<button type="button" class="close" data-dismiss="alert">&times;</button>
+				<div><i class="mdi mdi-exclamation-circle"></i> [[${msgError}]]</div>
+			</div>
+	
+			
+			<div class="table-responsive-sm">		
+				<table class="table table-hover table-bordered table-sm">
+					<thead class="thead-light">
+						<tr>
+							<th>Nome</th>
+							<th>Sexo</th>
+							<th>Data Nascimento</th>
+							<th>Telefone</th>
+							<th>CPF</th>
+							<th width="50px"></th>
+						</tr>
+					</thead>
+					<tbody>
+						<tr th:each="paciente : ${pacientes}">
+							<td>[[${paciente.nome}]]</td>
+							<td>[[${paciente.sexo}]]</td>
+							<td>[[${#dates.format(paciente.dataNascimento, "dd/MM/yyyy")}]]</td>
+							<td>[[${paciente.telefone}]]</td>
+							<td>[[${paciente.cpf}]]</td>
+							<td>
+								<a  data-toggle="tooltip" title="Edit" data-placement="right"><i class="mdi mdi-pencil-box text-primary"></i></a>
+								<a th:href="@{/pacientes/delete/{id}(id=${paciente.id})}"  onclick="return confirm('Estás seguro?')" data-toggle="tooltip" title="Delete" data-placement="right"><i class="mdi mdi-delete text-danger"></i></a>
+							</td>							
+						</tr>
+					</tbody>				
+				</table>
+			</div>	
+			</div>			
+		</div>		
+	</div>	
+	<th:block layout:fragment="js-extra">
+		<!-- JS HERE -->
+	</th:block>
+</body>
+</html>

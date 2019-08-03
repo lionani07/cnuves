@@ -3,7 +3,8 @@ $(function(){
      config = {
          locale: 'pt-br',
          format: 'dd/mm/yyyy',
-         uiLibrary: 'bootstrap4'
+         uiLibrary: 'bootstrap4',
+         size: 'small',         
      };     
-     datepicker = $('#datepicker').datepicker(config);
+     datepicker = $('.js-datepicker').datepicker(config); 
 });

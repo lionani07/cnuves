@@ -11,15 +11,8 @@
 		<div
 			class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
 
-			<div class="text-center">
-				<nav class="bottom-navbar">
-					<ul class="nav page-navigation">
-						<li class="nav-item"><a class="nav-link" > 
-							<i class="mdi mdi-bank menu-icon" style="color: #008080;"></i>
-							<span class="menu-title" style="color: #008000;">Variação Cambial</span> </a>
-						</li>
-					</ul>
-				</nav>				
+			<div class="text-center">												
+				<img alt="Logo Clínica nas Nuves" th:src="@{/images/logo.png}">						
 			</div>
 			
 			<ul class="navbar-nav navbar-nav-right">
@@ -46,13 +39,17 @@
 	<nav class="bottom-navbar">
 		<div class="container-fluid ">		
 			<ul class="nav page-navigation justify-content-end">				
-				<li class="nav-item"><a class="nav-link" th:href="@{/empresas}" > 
-					<i class="mdi mdi-hospital-building menu-icon" style="color: #008080;"></i>
-					<span class="menu-title">Empresas</span> </a>
+				<li class="nav-item"><a class="nav-link" th:href="@{/medicos}" > 
+					<i class="fas fa-user-md text-success" ></i>								
+					<span class="menu-title">Médicos</span> </a>
 				</li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/moedas}"> 
-					<i class="mdi mdi-currency-eur menu-icon" style="color: #808000;"></i>
-					<span class="menu-title">Moedas</span> </a>
+				<li class="nav-item"><a class="nav-link" th:href="@{/pacientes}"> 
+					<i class="fas fa-user" style="color: #808000;"></i>
+					<span class="menu-title">Pacientes</span> </a>
+				</li>
+				<li class="nav-item"><a class="nav-link" th:href="@{/agendas}"> 
+					<i class="fas fa-user" style="color: #808000;"></i>
+					<span class="menu-title">Agendas</span> </a>
 				</li>
 				<li class="nav-item"><a class="nav-link"> 
 					<i class="mdi mdi-cash-usd menu-icon" style="color: #808080;"></i>

@@ -72,17 +72,19 @@
 					
 					<div class="form-group col-sm-3">
 						<label class="form-control-label">Pagamento</label>
+						<div th:classappend="${#fields.hasErrors('indicadorPagamento')} ? bg-danger">
 						<select th:field="*{indicadorPagamento}" class="js-example-basic-single w-100">
 							<option value="">Escolha pagamento...</option>
 							<th:block th:each="pagamento : ${indicadoresPagamentos}">
 								<option th:value="${pagamento}">[[${pagamento}]]</option>
 							</th:block>
 						</select>
+						</div>
 					</div>
 					
 					<div class="form-group col-sm-2">
 						<label class="form-control-label">Valor</label>
-						<input type="text" th:field="*{valor}" class="form-control form-control-sm js-money">
+						<input type="text" th:field="*{valor}" class="form-control form-control-sm js-money" th:classappend="${#fields.hasErrors('valor')} ? is-invalid">
 					</div>
 					
 				</div>

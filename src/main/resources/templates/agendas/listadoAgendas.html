@@ -13,7 +13,10 @@
 		<div class="card">
 			<div class="card-header">
 				<div class="row">
-					<div class="col-sm-10"><i class="fas fa-user-md text-success"></i> Listado de Consultas</div>				
+					<div class="col-sm-3"><i class="fas fa-user-md text-success"></i> Listado de Consultas</div>
+					<div class="col-sm-2"><a class="btn btn-sm close" th:href="@{/agendas/pagas}"><i class="mdi mdi-calendar-check text-success"></i> Pagas</a></div>
+					<div class="col-sm-3 text-left"><a class="btn btn-sm close" th:href="@{/agendas/pendentesPagamento}"><i class="mdi mdi-calendar-clock text-info"></i> Pendentes de Pagamento</a></div>				
+					<div class="col-sm-2"></div>
 					<a th:href="@{/agendas/novo}" class="col-sm-2 text-center btn btn-sm close"><i class="mdi mdi-plus-circle text-success"></i> Agenda</a>
 				</div>				
 			</div>
@@ -40,6 +43,7 @@
 							<th>Valor</th>
 							<th>Paciente</th>
 							<th>Pagamento</th>
+							<th></th>
 							<th width="50px"></th>
 						</tr>
 					</thead>
@@ -51,7 +55,11 @@
 							<td>[[${agenda.fim}]]</td>
 							<td>[[${#numbers.formatDecimal(agenda.valor, 1, 'DEFAULT', 2, 'DEFAULT')}]]</td>							
 							<td>[[${agenda.paciente.nome}]]</td>
-							<td>[[${agenda.indicadorPagamento}]]</td>							
+							<td>[[${agenda.indicadorPagamento}]]</td>	
+							<td class="text-center">
+								<a th:if="${not agenda.paga}" th:href="@{/agendas/efetuarPagamento/{id}(id=${agenda.id})}"><span class="badge badge-info"><i class="mdi mdi-currency-usd"></i> Efetuar pagamento</span></a>		
+								<span th:if="${agenda.paga}" class="badge badge-success"><i class="mdi mdi-currency-usd"></i> Pagamento Efectuado</span>					
+							</td>							
 							<td>
 								<a  data-toggle="tooltip" title="Edit" data-placement="right"><i class="mdi mdi-pencil-box text-primary"></i></a>
 								<a onclick="return confirm('Estás seguro?')" th:href="@{/agendas/delete/{id}(id=${agenda.id})}" data-toggle="tooltip" title="Delete" data-placement="right"><i class="mdi mdi-delete text-danger"></i></a>

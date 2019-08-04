@@ -23,7 +23,7 @@ import org.springframework.format.annotation.NumberFormat;
 import cnuves.model.enums.IndicadorPagamento;
 
 @Entity
-public class Agenda {
+public class Agenda implements Comparable<Agenda> {
 	
 	@Id
 	@GeneratedValue(strategy = GenerationType.AUTO)
@@ -55,6 +55,8 @@ public class Agenda {
 	@NotNull(message = "Indicador de pagamento é obrigatório")
 	@Enumerated(EnumType.STRING)
 	private IndicadorPagamento indicadorPagamento;
+	
+	private boolean paga;
 
 	public Long getId() {
 		return id;
@@ -118,6 +120,14 @@ public class Agenda {
 
 	public void setIndicadorPagamento(IndicadorPagamento indicadorPagamento) {
 		this.indicadorPagamento = indicadorPagamento;
+	}	
+
+	public boolean isPaga() {
+		return paga;
+	}
+
+	public void setPaga(boolean paga) {
+		this.paga = paga;
 	}
 
 	@Override
@@ -145,19 +155,32 @@ public class Agenda {
 		return true;
 	}
 	
-	public Interval getInterval() {
-		int year = this.data.get(Calendar.YEAR);
-		int diaMes = this.data.get(Calendar.DAY_OF_MONTH);
-		int mes = this.data.get(Calendar.MONTH);
-		DateTime dateTimeInicio = new DateTime(year, mes, diaMes, inicio.getHour(), inicio.getMinute());		
-		DateTime dateTimeFim = new DateTime(year, mes, diaMes, fim.getHour(), fim.getMinute());
-		return new Interval(dateTimeInicio, dateTimeFim);
+	public DateTime getDateTimeInicio() {
+		return new DateTime(this.data.get(Calendar.YEAR), this.data.get(Calendar.MONTH), this.data.get(Calendar.DAY_OF_MONTH), inicio.getHour(), inicio.getMinute());
+	}
+	
+	public DateTime getDateTimeFim() {
+		return new DateTime(this.data.get(Calendar.YEAR), this.data.get(Calendar.MONTH), this.data.get(Calendar.DAY_OF_MONTH), fim.getHour(), fim.getMinute());
+	}
+	
+	public Interval getInterval() {			
+		return new Interval(getDateTimeInicio(), getDateTimeFim());
 	}
 
 	@Override
 	public String toString() {
 		return "Agenda [id=" + id + ", paciente=" + paciente + ", medico=" + medico + ", data=" + data + ", inicio="
 				+ inicio + ", fim=" + fim + ", valor=" + valor + ", indicadorPagamento=" + indicadorPagamento + "]";
+	}
+
+	@Override
+	public int compareTo(Agenda o) {
+		if(this.getDateTimeInicio().isBefore(o.getDateTimeInicio())) {
+			return -1;
+		}else if(this.getDateTimeInicio().isAfter(o.getDateTimeInicio())) {
+			return 1;
+		}
+		return 0;		
 	}
 	
 	

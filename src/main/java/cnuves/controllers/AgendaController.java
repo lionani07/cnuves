@@ -3,21 +3,23 @@ package cnuves.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import cnuves.exceptions.AgendaMedicoException;
 import cnuves.exceptions.AgendaPacienteException;
 import cnuves.exceptions.IntervalInvalidException;
-import cnuves.exceptions.MedicoExisteException;
 import cnuves.model.Agenda;
 import cnuves.model.enums.IndicadorPagamento;
-import cnuves.respositories.Agendas;
 import cnuves.respositories.Medicos;
 import cnuves.respositories.Pacientes;
 import cnuves.services.AgendaService;
@@ -29,10 +31,7 @@ public class AgendaController {
 	@Autowired
 	private Medicos medicos;	
 	@Autowired
-	private Pacientes pacientes;
-	
-	@Autowired
-	private Agendas agendas;
+	private Pacientes pacientes;	
 	
 	@Autowired
 	private AgendaService agendaService;
@@ -40,7 +39,21 @@ public class AgendaController {
 	@GetMapping
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("agendas/listadoAgendas");
-		mv.addObject("agendas", agendas.findAll());
+		mv.addObject("agendas", agendaService.findAllSort());
+		return mv;
+	}
+	
+	@GetMapping("/pagas")
+	public ModelAndView pagas() {
+		ModelAndView mv = new ModelAndView("agendas/listadoAgendas");
+		mv.addObject("agendas", agendaService.findAllEstadoPagamento(true));
+		return mv;
+	}
+	
+	@GetMapping("/pendentesPagamento")
+	public ModelAndView pendentesPagamento() {
+		ModelAndView mv = new ModelAndView("agendas/listadoAgendas");
+		mv.addObject("agendas", agendaService.findAllEstadoPagamento(false));
 		return mv;
 	}
 	
@@ -72,6 +85,18 @@ public class AgendaController {
 		}		
 		flash.addFlashAttribute("msgSuccess", "Agenda criada com succeso");
 		return new ModelAndView("redirect:/agendas/novo");
+	}
+	
+	@GetMapping("/efetuarPagamento/{id}")
+	public ModelAndView efectuarPagamento(@PathVariable Long id, RedirectAttributes flash) {
+		try {
+			agendaService.efectuarPagamento(id);
+		} catch (Exception e) {
+			flash.addFlashAttribute("msgError", e.getMessage());
+		}
+		flash.addFlashAttribute("msgInfo", "Pagamento efetuado com sucesso");
+		return new ModelAndView("redirect:/agendas");
+		
 	}
 	
 	

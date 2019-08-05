@@ -14,7 +14,10 @@ public interface Agendas extends JpaRepository<Agenda, Long> {
 	List<Agenda> findByPacienteAndData(Paciente paciente, Calendar data);
 	List<Agenda> findByMedicoAndData(Medico medico, Calendar data);
 	
-	@Query("FROM Agenda WHERE paga = ?1")
+	@Query("SELECT a FROM Agenda a WHERE a.paga = ?1")
 	List<Agenda> findAllByEstadoPagamento(boolean pagamento);
+	
+	@Query("SELECT a FROM Agenda a where a.paciente.nome like %?1% and a.medico.nome like %?2% and a.data = ?3" )
+	List<Agenda> findByPacienteAndMedico(String paciente, String medico, Calendar data);
 	
 }

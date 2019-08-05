@@ -3,15 +3,13 @@ package cnuves.controllers;
 import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.http.MediaType;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.servlet.ModelAndView;
 import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
@@ -40,6 +38,13 @@ public class AgendaController {
 	public ModelAndView listar() {
 		ModelAndView mv = new ModelAndView("agendas/listadoAgendas");
 		mv.addObject("agendas", agendaService.findAllSort());
+		return mv;
+	}
+	
+	@PostMapping("/filtrar")
+	public ModelAndView test(Agenda agenda, String estadoPagamento) {			
+		ModelAndView mv = new ModelAndView("agendas/listadoAgendas");
+		mv.addObject("agendas", agendaService.filtrar(agenda, estadoPagamento));
 		return mv;
 	}
 	
@@ -88,6 +93,27 @@ public class AgendaController {
 	}
 	
 	@GetMapping("/efetuarPagamento/{id}")
+	public ResponseEntity<?> efectuarPagamento(@PathVariable Long id) {		
+		try {
+			agendaService.efectuarPagamento(id);
+		} catch (Exception e) {
+			return ResponseEntity.badRequest().body(e.getMessage());
+		}		
+		return ResponseEntity.ok("Pagamento efectuado com succeso");
+	}
+	
+	/*
+	@PostMapping("/filtrar")
+	public ModelAndView filtrar(Agenda agenda, @RequestParam String estadoPagamento) {	
+		System.out.println("estado Pagamento" + estadoPagamento);
+		ModelAndView mv = new ModelAndView("agendas/listadoAgendas");
+		mv.addObject("agendas", agendaService.filtar(agenda));		
+		return mv;
+	}
+	*/
+	
+	/*
+	@GetMapping("/efetuarPagamento/{id}")
 	public ModelAndView efectuarPagamento(@PathVariable Long id, RedirectAttributes flash) {
 		try {
 			agendaService.efectuarPagamento(id);
@@ -98,6 +124,6 @@ public class AgendaController {
 		return new ModelAndView("redirect:/agendas");
 		
 	}
-	
+	*/
 	
 }

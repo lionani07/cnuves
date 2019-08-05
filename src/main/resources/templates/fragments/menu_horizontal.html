@@ -11,26 +11,11 @@
 		<div
 			class="navbar-menu-wrapper d-flex align-items-center justify-content-between">
 
-			<div class="text-center">												
-				<img alt="Logo Clínica nas Nuves" th:src="@{/images/logo.png}">						
+			<div class="text-center">
+				<a class="btn" th:href="@{/}">
+					<img  alt="Logo Clínica nas Nuves" th:src="@{/images/logo.png}">	
+				</a>				
 			</div>
-			
-			<ul class="navbar-nav navbar-nav-right">
-                <li class="nav-item dropdown  d-lg-flex d-none">
-                  <button type="button" class="btn btn-light btn-sm">Empresa </button>
-                </li>
-                <li class="nav-item dropdown d-lg-flex d-none">
-                  <a class="dropdown-toggle show-dropdown-arrow btn btn-light btn-sm" id="nreportDropdown" href="#" data-toggle="dropdown">
-                  Utilidades
-                  </a>
-                  <div class="dropdown-menu dropdown-menu-right navbar-dropdown preview-list" aria-labelledby="nreportDropdown">
-                      <p class="mb-0 font-weight-medium float-left dropdown-header">Utilidades</p>
-                      <a class="dropdown-item"><i class="mdi mdi-plus-circle text-success"></i>  Taça cambio</a>              
-                       <a th:href="@{/tacacambios/novo}" class="dropdown-item"><i class="mdi mdi-play-circle text-success"></i>  Taça cambio</a>                        
-                  </div>
-                </li>                               
-			</ul>	
-			
 			
 		</div>
 	</div>
@@ -40,29 +25,17 @@
 		<div class="container-fluid ">		
 			<ul class="nav page-navigation justify-content-end">				
 				<li class="nav-item"><a class="nav-link" th:href="@{/medicos}" > 
-					<i class="fas fa-user-md text-success" ></i>								
+					<i class="fas fa-user-md text-secondary" ></i>								
 					<span class="menu-title">Médicos</span> </a>
 				</li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/pacientes}"> 
-					<i class="fas fa-user" style="color: #808000;"></i>
+					<i class="fas fa-user text-secondary"></i>
 					<span class="menu-title">Pacientes</span> </a>
 				</li>
 				<li class="nav-item"><a class="nav-link" th:href="@{/agendas}"> 
-					<i class="fas fa-user" style="color: #808000;"></i>
+					<i class="mdi mdi-calendar-multiple text-success"></i>
 					<span class="menu-title">Agendas</span> </a>
-				</li>
-				<li class="nav-item"><a class="nav-link"> 
-					<i class="mdi mdi-cash-usd menu-icon" style="color: #808080;"></i>
-					<span class="menu-title">Invoices</span> </a>
-				</li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/clientes}"> 
-					<i class="mdi mdi-account-multiple menu-icon" style="color: #008000;"></i>
-					<span class="menu-title">Clientes</span> </a>
-				</li>
-				<li class="nav-item"><a class="nav-link" th:href="@{/tacaCambios}"> 
-					<i class="mdi mdi-currency-btc menu-icon" style="color: green;"></i>
-					<span class="menu-title">Taças de Cambio</span> </a>
-				</li>
+				</li>			
 			</ul>
 		</div>
 	</nav>

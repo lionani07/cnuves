@@ -13,7 +13,7 @@
 		<div class="card">
 			<div class="card-header">
 				<div class="row">
-					<div class="col-sm-10"><i class="fas fa-user text-success"></i> Listado de Pacientes</div>				
+					<div class="col-sm-10"><i class="fas fa-user text-secondary"></i> Listado de Pacientes</div>				
 					<a th:href="@{/pacientes/novo}" class="col-sm-2 text-center btn btn-sm close"><i class="mdi mdi-plus-circle text-success"></i> Paciente</a>
 				</div>				
 			</div>
@@ -27,10 +27,18 @@
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<div><i class="mdi mdi-exclamation-circle"></i> [[${msgError}]]</div>
 			</div>
-	
 			
-			<div class="table-responsive-sm">		
-				<table class="table table-hover table-bordered table-sm">
+			<div>
+				<div class="input-group mb-3 input-group-sm">
+				     <div class="input-group-prepend">				       
+				        <span class="input-group-text"> <i class="fas fa-filter text-dark"></i></span>
+				    </div>				    
+				    <input class="form-control col-sm-6" id="filterPaciente" type="text" placeholder="Nome de paciente">
+			  	</div>								
+			</div>	
+						
+			<div class="table-responsive-sm py-4">				
+				<table class="table table-hover table-bordered table-sm py-2">
 					<thead class="thead-light">
 						<tr>
 							<th>Nome</th>
@@ -41,9 +49,9 @@
 							<th width="50px"></th>
 						</tr>
 					</thead>
-					<tbody>
+					<tbody id="tablePacientes">
 						<tr th:each="paciente : ${pacientes}">
-							<td>[[${paciente.nome}]]</td>
+							<td class="js-nome">[[${paciente.nome}]]</td>
 							<td>[[${paciente.sexo}]]</td>
 							<td>[[${#dates.format(paciente.dataNascimento, "dd/MM/yyyy")}]]</td>
 							<td>[[${paciente.telefone}]]</td>

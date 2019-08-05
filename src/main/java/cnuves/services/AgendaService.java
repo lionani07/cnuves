@@ -1,8 +1,16 @@
 package cnuves.services;
 
+import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 import java.util.Optional;
+
+import javax.persistence.EntityManager;
+import javax.persistence.PersistenceContext;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Predicate;
+import javax.persistence.criteria.Root;
 
 import org.joda.time.Interval;
 import org.joda.time.ReadableInterval;
@@ -19,6 +27,9 @@ import cnuves.respositories.Agendas;
 @Service
 public class AgendaService {
 	
+	@PersistenceContext
+	private EntityManager em;
+	
 	@Autowired
 	private Agendas agendas;
 	
@@ -32,6 +43,37 @@ public class AgendaService {
 		List<Agenda> list = agendas.findAllByEstadoPagamento(estadoPagamento);
 		Collections.sort(list);		
 		return list;
+	}
+	
+	
+	public List<Agenda> filtrar(Agenda agendaCriteria, String estadoPagamento) {
+		CriteriaBuilder cb = em.getCriteriaBuilder();
+        CriteriaQuery<Agenda> cq = cb.createQuery(Agenda.class);        
+        
+        Predicate data= null, paga= null, medico = null, paciente = null;
+        
+        Root<Agenda> agenda = cq.from(Agenda.class); 
+        List<Predicate> predicates = new ArrayList<>();
+        
+        if(agendaCriteria.getData()!=null) {
+        	data = cb.equal(agenda.get("data"), agendaCriteria.getData());
+        	predicates.add(data);
+        } 
+        if(estadoPagamento.length()>0) {
+        	paga = cb.equal(agenda.get("paga"), new Long(estadoPagamento));
+        	predicates.add(paga);
+        } 
+        if(agendaCriteria.getMedico().getNome().length()>0) {
+        	medico = cb.like(agenda.get("medico").get("nome"), "%" + agendaCriteria.getMedico().getNome() + "%"); 
+        	predicates.add(medico);
+        }
+        if(agendaCriteria.getPaciente().getNome().length()>0) {
+        	paciente = cb.like(agenda.get("paciente").get("nome"), "%" + agendaCriteria.getPaciente().getNome() + "%");  
+        	predicates.add(paciente);
+        }         
+        cq.where(predicates.toArray(new Predicate[0]));        
+        return em.createQuery(cq).getResultList();
+       
 	}
 	
 	public void save(Agenda agenda) {
@@ -72,6 +114,10 @@ public class AgendaService {
 		}
 		optionalAgenda.get().setPaga(true);
 		agendas.save(optionalAgenda.get());
+	}
+
+	public List<Agenda> filtar(Agenda agenda) {		
+		return agendas.findByPacienteAndMedico(agenda.getPaciente().getNome(), agenda.getMedico().getNome(), agenda.getData());		
 	}
 	
 	/*	

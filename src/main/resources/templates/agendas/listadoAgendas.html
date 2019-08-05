@@ -5,6 +5,7 @@
 <head>
 <title>Listado de Consultas</title>
 <meta charset="utf-8">
+<link rel="stylesheet" th:href="@{/vendors/gijgo-datepicker1.9.13/css/gijgo.min.css}">
 </head>
 
 <body>
@@ -13,10 +14,7 @@
 		<div class="card">
 			<div class="card-header">
 				<div class="row">
-					<div class="col-sm-3"><i class="fas fa-user-md text-success"></i> Listado de Consultas</div>
-					<div class="col-sm-2"><a class="btn btn-sm close" th:href="@{/agendas/pagas}"><i class="mdi mdi-calendar-check text-success"></i> Pagas</a></div>
-					<div class="col-sm-3 text-left"><a class="btn btn-sm close" th:href="@{/agendas/pendentesPagamento}"><i class="mdi mdi-calendar-clock text-info"></i> Pendentes de Pagamento</a></div>				
-					<div class="col-sm-2"></div>
+					<div class="col-sm-10"><i class="mdi mdi-calendar-multiple text-success"></i> Listado de Agendas</div>	
 					<a th:href="@{/agendas/novo}" class="col-sm-2 text-center btn btn-sm close"><i class="mdi mdi-plus-circle text-success"></i> Agenda</a>
 				</div>				
 			</div>
@@ -30,49 +28,107 @@
 				<button type="button" class="close" data-dismiss="alert">&times;</button>
 				<div><i class="mdi mdi-exclamation-circle"></i> [[${msgError}]]</div>
 			</div>
-	
+						
+			<form th:action="@{/agendas/filtrar}" method="post" th:object="${agenda}">	
+			<div class="row">
 			
-			<div class="table-responsive-sm">		
-				<table class="table table-hover table-bordered table-sm">
+				<div class="form-group col-sm-6">
+					<label class="form-control-label">Paciente</label>
+					<input name="paciente.nome" type="text" class="form-control form-control-sm">
+				</div>
+				
+				<div class="form-group col-sm-3">
+					<label class="form-control-label">Data</label>
+					<input name="data" type="text" class="form-control form-control-sm js-datepicker" readonly>
+				</div>
+				
+				<div class="form-group col-sm-3" th:if="${agenda!=null}">				
+					<span th:if="${agenda!=null}"><i class="fas fa-user-md text-success"></i> [[${agenda.paciente.nome}]]</span><br/>
+					<span th:if="${agenda!=null}"><i class="fas fa-user text-secondary"></i> [[${agenda.medico.nome}]]</span><br/>
+					<span th:if="${agenda!=null}"><i class="fas fa-calendar text-warning"></i> [[${#dates.format(agenda.data, "dd-MMM-yyyy")}]]</span>
+				</div>
+				
+				<div class="form-group col-sm-6">
+					<label class="form-control-label">Medico</label>
+					<input name="medico.nome" type="text" class="form-control form-control-sm">
+				</div>					
+				
+				<div class="form-group col-sm-3">
+					<label class="form-control-label">Estado pagamento</label>
+					<select name="estadoPagamento" class="js-example-basic-single w-100">
+						<option value="">...</option>
+						<option value="1">Pagas</option>
+						<option value="0">Pendentes</option>
+						
+					</select>
+				</div>				
+				<div class="col-sm-12">
+					<button class="btn btn-success btn-sm" type="submit">Pesquisar</button>
+				</div>
+			</div>
+			</form>	
+			
+			<div class="table-responsive-sm py-2">		
+				<table class="table table-hover table-bordered table-sm text-center">
+				<caption class="text-right"><span class="badge badge-info">Total: [[${#lists.size(agendas)}]]</span></caption>
 					<thead class="thead-light">
 						<tr>
-							<th>Médico</th>
-							<th>Data</th>
+							<th>Data</th>							
 							<th>Inicio</th>
 							<th>Fim</th>
-							<th>Valor</th>
-							<th>Paciente</th>
+							<th>Médico</th>							
+							<th>Paciente</th>							
 							<th>Pagamento</th>
+							<th>Valor</th>
 							<th></th>
 							<th width="50px"></th>
 						</tr>
 					</thead>
 					<tbody>
-						<tr th:each="agenda : ${agendas}">
-							<td>[[${agenda.medico?.nome}]]</td>
+						<tr th:if="${agendas.empty}">
+							<td colspan="9"> Não existem agendas para mostrar </td>
+						</tr>
+						<tr th:id="${agenda.id}" th:each="agenda : ${agendas}">							
 							<td>[[${#dates.format(agenda.data, "dd-MMM-yyyy")}]]</td>
 							<td>[[${agenda.inicio}]]</td>
 							<td>[[${agenda.fim}]]</td>
-							<td>[[${#numbers.formatDecimal(agenda.valor, 1, 'DEFAULT', 2, 'DEFAULT')}]]</td>							
+							<td>[[${agenda.medico?.nome}]]</td>
 							<td>[[${agenda.paciente.nome}]]</td>
 							<td>[[${agenda.indicadorPagamento}]]</td>	
+							<td><span class="badge badge-dark">[[${#numbers.formatDecimal(agenda.valor, 1, 'DEFAULT', 2, 'DEFAULT')}]]</span></td>							
 							<td class="text-center">
-								<a th:if="${not agenda.paga}" th:href="@{/agendas/efetuarPagamento/{id}(id=${agenda.id})}"><span class="badge badge-info"><i class="mdi mdi-currency-usd"></i> Efetuar pagamento</span></a>		
-								<span th:if="${agenda.paga}" class="badge badge-success"><i class="mdi mdi-currency-usd"></i> Pagamento Efectuado</span>					
+								<a class="js-efectuarPagamento" th:if="${not agenda.paga}" th:href="@{/agendas/efetuarPagamento/{id}(id=${agenda.id})}"><span class="badge badge-info"><i class="mdi mdi-currency-usd"></i> Efetuar pagamento</span></a>		
+								<span th:if="${agenda.paga}" class="badge badge-success"><i class="mdi mdi-currency-usd"></i> Pagamento Efectuado</span>
+								<span class="badge badge-success js-text-update d-none"><i class="mdi mdi-currency-usd"></i></span>					
 							</td>							
 							<td>
 								<a  data-toggle="tooltip" title="Edit" data-placement="right"><i class="mdi mdi-pencil-box text-primary"></i></a>
 								<a onclick="return confirm('Estás seguro?')" th:href="@{/agendas/delete/{id}(id=${agenda.id})}" data-toggle="tooltip" title="Delete" data-placement="right"><i class="mdi mdi-delete text-danger"></i></a>
 							</td>							
-						</tr>
-					</tbody>				
+						</tr>									
+					</tbody>														
 				</table>
 			</div>	
 			</div>			
-		</div>		
+		</div>
+		
+		  <div class="toast" style="position: absolute; top: 0; right: 0;" data-delay="1000">
+		    <div class="toast-header">
+		   	  <strong class="mr-auto"> <i class="mdi mdi-calendar-blank"></i>  <span></span></strong>		     
+		      <button type="button" class="ml-2 mb-1 close" data-dismiss="toast" aria-label="Close">
+		        <span aria-hidden="true">&times;</span>
+		      </button>
+		    </div>
+		    <div class="toast-body">
+		      Hello, world! This is a toast message.
+		    </div>
+		  </div>		
+			
 	</div>	
 	<th:block layout:fragment="js-extra">
-		<!-- JS HERE -->
+		<script th:src="@{/vendors/gijgo-datepicker1.9.13/js/gijgo.min.js}"></script>
+		<script th:src="@{/vendors/gijgo-datepicker1.9.13/js/messages/messages.pt-br.min.js}"></script>
+		<script th:src="@{/js/datepicker.js}"></script>
 	</th:block>
 </body>
 </html>

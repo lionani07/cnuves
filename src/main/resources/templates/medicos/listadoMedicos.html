@@ -43,7 +43,7 @@
 							<td>[[${medico.nome}]]</td>
 							<td>[[${medico.registro}]]</td>
 							<td>
-								<a  data-toggle="tooltip" title="Edit" data-placement="right"><i class="mdi mdi-pencil-box text-primary"></i></a>
+								<a th:href="@{medicos/edit/{id}(id=${medico.id})}" data-toggle="tooltip" title="Edit" data-placement="right"><i class="mdi mdi-pencil-box text-primary"></i></a>
 								<a onclick="return confirm('Estás seguro?')" th:href="@{/medicos/delete/{id}(id=${medico.id})}" data-toggle="tooltip" title="Delete" data-placement="right"><i class="mdi mdi-delete text-danger"></i></a>
 							</td>							
 						</tr>

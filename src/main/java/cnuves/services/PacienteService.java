@@ -43,6 +43,9 @@ public class PacienteService {
 	public void delete(Long id) {
 		Optional<Paciente> optionalPaciente = pacientes.findById(id);
 		if(optionalPaciente.isPresent()) {
+			if(!optionalPaciente.get().getAgendas().isEmpty()) {
+				throw new RuntimeException("Error ao deletar paciente, existem agendas asociadas");
+			}
 			pacientes.delete(optionalPaciente.get());
 		}else {
 			throw new RuntimeException("Paciente com id " + id + " ñao existe");

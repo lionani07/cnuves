@@ -83,6 +83,14 @@ public class Paciente {
 		this.cpf = cpf;
 	}
 	
+	public List<Agenda> getAgendas() {
+		return agendas;
+	}
+	
+	public void setAgendas(List<Agenda> agendas) {
+		this.agendas = agendas;
+	}
+	
 	@Override
 	public int hashCode() {
 		final int prime = 31;

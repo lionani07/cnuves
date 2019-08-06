@@ -49,6 +49,14 @@ public class Medico {
 	public void setRegistro(String registro) {
 		this.registro = registro;
 	}
+	
+	public List<Agenda> getAgendas() {
+		return agendas;
+	}
+	
+	public void setAgendas(List<Agenda> agendas) {
+		this.agendas = agendas;
+	}
 
 	@Override
 	public int hashCode() {
